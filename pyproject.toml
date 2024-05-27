@@ -5,7 +5,7 @@ description = "Create new release with `pdm release VERSION`"
 authors = [{ name = "MEx Team", email = "mex@rki.de" }]
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
-urls = { Repository = "https://github.com/rababerladuseladim/mex-release" }
+urls = { Repository = "https://github.com/robert-koch-institut/mex-release" }
 requires-python = "<3.13,>=3.11"
 dependencies = [
     "pdm>=2.13.2,<3.0",
