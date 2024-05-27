@@ -6,4 +6,4 @@ Plugin for pdm package manager.
 
 Install: `pip install git+https://github.com/rababerladuseladim/mex-release.git`
 
-Execute: `pdm release VERSION` where VERSION matches the regular expression: `\d+\.\d+\.\d+`.
+Execute: `pdm release VERSION` where VERSION matches the regular expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
