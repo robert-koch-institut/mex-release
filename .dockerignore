@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+# Byte-compiled files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -14,7 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-.pdm-python
 lib/
 lib64/
 parts/
@@ -35,7 +34,8 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Testing / coverage reports
+# Unit test / coverage reports
+tests/
 htmlcov/
 .tox/
 .nox/
@@ -60,7 +60,6 @@ pytestdebug.log
 
 # Sphinx documentation
 docs/_build/
-docs/source/
 
 # PyBuilder
 .pybuilder/
@@ -76,7 +75,7 @@ ipython_config.py
 # pyenv
 .python-version
 
-# PEP 582
+# PEP 582; used by e.g. pyflow
 __pypackages__/
 
 # Celery stuff
@@ -101,10 +100,6 @@ dmypy.json
 # ruff
 .ruff_cache
 
-# cruft
-.cruft-pr-body
-*.rej
-
 # PyCharm
 .idea/
 .idea_modules/
@@ -123,3 +118,26 @@ data/
 identity.csv
 schema.json
 work/
+
+# Docker specifics
+**/.dockerignore
+**/.git
+**/.github
+**/.gitignore
+**/compose*
+**/docker-compose*
+**/Dockerfile*
+
+# Setup files
+.bandit
+.isort.cfg
+.mypy.ini
+.pdm-python
+.pre-commit-config.yaml
+.pydocstyle
+Makefile
+mex.bat
+*.lock
+poetry.toml
+pytest.ini
+requirements.txt
