@@ -1,0 +1,22 @@
+[project]
+name = "mex-release"
+version = "0.0.1"
+description = "Create new release with `pdm release VERSION`"
+authors = [{ name = "MEx Team", email = "mex@rki.de" }]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+urls = { Repository = "https://github.com/rababerladuseladim/mex-release" }
+requires-python = "<3.13,>=3.11"
+dependencies = [
+    "pdm>=2.13.2,<3.0",
+]
+
+[project.entry-points.pdm]
+release = "release:release"
+
+[tool.pdm]
+distribution = true
+
+[build-system]
+requires = ["pdm-backend==2.1.8"]
+build-backend = "pdm.backend"
