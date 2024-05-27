@@ -26,11 +26,6 @@ linter:
 	@ echo linting all files; \
 	pdm lint; \
 
-pytest:
-	# run the pytest test suite with all unit tests
-	@ echo running unit tests; \
-	pdm unit; \
-
 wheel:
 	# build the python package
 	@ echo building wheel; \

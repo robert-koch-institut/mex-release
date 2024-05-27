@@ -14,12 +14,7 @@ optional-dependencies.dev = [
     "black>=24.4.2",
     "ipdb>=0.13.13",
     "mypy>=1.10.0",
-    "pytest-cov>=5.0.0",
-    "pytest-random-order>=1.1.1",
-    "pytest-xdist>=3.6.1",
-    "pytest>=8.2.0",
     "ruff>=0.4.4",
-    "sphinx>=7.3.7",
 ]
 
 [project.entry-points.pdm]
@@ -120,9 +115,6 @@ select = [
     "N807", # Allow mocking `__init__` for tests
     "S101", # Allow use of `assert` in tests
 ]
-
-[tool.ruff.lint.isort]
-known-first-party = ["mex", "tests"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

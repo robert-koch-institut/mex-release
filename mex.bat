@@ -32,15 +32,3 @@ exit /b %errorlevel%
 echo linting all files
 pdm lint
 if %errorlevel% neq 0 exit /b %errorlevel%
-
-@REM run the pytest test suite with unit and integration tests
-echo running all tests
-pdm test
-exit /b %errorlevel%
-
-
-:docs
-@REM use sphinx to auto-generate html docs from code
-echo generating docs
-pdm doc
-exit /b %errorlevel%
