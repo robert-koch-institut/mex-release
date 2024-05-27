@@ -36,29 +36,6 @@ wheel:
 	@ echo building wheel; \
 	pdm wheel; \
 
-image:
-	# build the docker image
-	@ echo building docker image mex-release:${LATEST}; \
-	export DOCKER_BUILDKIT=1; \
-	docker build \
-		--tag rki/mex-release:${LATEST} \
-		--tag rki/mex-release:latest .; \
-
-run: image
-	# run the service as a docker container
-	@ echo running docker container mex-release:${LATEST}; \
-	docker run \
-		--env MEX_RELEASE_HOST=0.0.0.0 \
-		--publish 8081:8081 \
-		rki/mex-release:${LATEST}; \
-
-start: image
-	# start the service using docker compose
-	@ echo start mex-release:${LATEST} with compose; \
-	export DOCKER_BUILDKIT=1; \
-	export COMPOSE_DOCKER_CLI_BUILD=1; \
-	docker compose up --remove-orphans; \
-
 docs:
 	# use sphinx to auto-generate html docs from code
 	@ echo generating docs; \
