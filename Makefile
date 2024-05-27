@@ -35,8 +35,3 @@ wheel:
 	# build the python package
 	@ echo building wheel; \
 	pdm wheel; \
-
-docs:
-	# use sphinx to auto-generate html docs from code
-	@ echo generating docs; \
-	pdm doc; \
