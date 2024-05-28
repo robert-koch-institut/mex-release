@@ -33,26 +33,31 @@ class ReleaseCommand(BaseCommand):
 
     def add_arguments(self, parser: argparse.ArgumentParser) -> None:
         """Manipulate the argument parser to add more arguments."""
-        parser.add_argument("version", help="new version for the project")
+        parser.add_argument(
+            "bump",
+            choices=("major", "minor", "patch"),
+            default="patch",
+            help="part of the project version to update",
+        )
 
     def handle(self, project: Project, options: argparse.Namespace) -> None:
         """Execute the release command."""
-        releaser = Releaser(project.pyproject, options.version)
+        releaser = Releaser(project.pyproject, options.bump)
         releaser.release()
 
 
 class Releaser:
     """Wrap the release functionality in a single object."""
 
-    def __init__(self, pyproject: PyProject, version: str) -> None:
+    def __init__(self, pyproject: PyProject, bump: str) -> None:
         """Create a new releaser instance."""
-        self.version = version
+        self.bump = bump
         self.pyproject = pyproject
 
     def run(self, *args: str) -> str:
         """Run a command as subproccess, first print it, later print the output."""
         self.pyproject.ui.echo(" ".join(args))
-        # use noqa because we check user input (version) and all other args are hard
+        # use noqa because we check user input (bump) and all other args are hard
         # coded
         stdout = subprocess.check_output(args).decode("utf-8")  # noqa: S603
         self.pyproject.ui.echo(
@@ -82,8 +87,10 @@ class Releaser:
 
     def check_version_string(self) -> None:
         """Validate the version string to format `0.3.14`."""
-        if not re.match(r"\d{1,4}\.\d{1,4}\.\d{1,4}", self.version):
-            raise RuntimeError("Version string does not match expected format.")
+        if not re.match(
+            r"\d{1,4}\.\d{1,4}\.\d{1,4}", self.pyproject.metadata["version"]
+        ):
+            raise RuntimeError("Current version string does not match expected format.")
 
     def release(self) -> None:
         """Execute the release command."""
@@ -92,7 +99,16 @@ class Releaser:
         self.check_version_string()
 
         # update project version in toml
-        self.pyproject.metadata["version"] = self.version
+        major, minor, patch = self.pyproject.metadata["version"].split(".")
+        if self.bump == "major":
+            new_version = f"{int(major) + 1}.0.0"
+        elif self.bump == "minor":
+            new_version = f"{major}.{int(minor) + 1}.0"
+        elif self.bump == "patch":
+            new_version = f"{major}.{minor}.{int(patch) + 1}"
+        else:
+            raise Exception("Unexpected bump value.")
+        self.pyproject.metadata["version"] = new_version
         self.pyproject.write()
 
         # rollover changelog sections
@@ -103,7 +119,7 @@ class Releaser:
         # add a new unreleased section
         changelog = changelog.replace(
             "\n## [Unreleased]\n",
-            CHANGELOG_TEMPLATE.format(version=self.version, date=date.today()),
+            CHANGELOG_TEMPLATE.format(version=new_version, date=date.today()),
         )
         with open("CHANGELOG.md", "w") as fh:
             fh.write(changelog)
@@ -117,11 +133,11 @@ class Releaser:
             "git",
             "commit",
             "-m",
-            f"bump version to {self.version}",
+            f"bump version to {new_version}",
             "CHANGELOG.md",
             "pyproject.toml",
         )
-        self.run("git", "tag", f"{self.version}")
+        self.run("git", "tag", f"{new_version}")
         self.run("git", "push")
         self.run("git", "push", "--tags")
 
