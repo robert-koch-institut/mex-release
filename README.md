@@ -6,7 +6,6 @@ Create new release with `pdm release VERSION`
 [![cve-scan](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml)
 [![linting](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml)
 [![open-code](https://github.com/robert-koch-institut/mex-release/actions/workflows/open-code.yml/badge.svg)](https://gitlab.opencode.de/robert-koch-institut/mex/mex-release)
-[![testing](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml)
 
 ## project
 
