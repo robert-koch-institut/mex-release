@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- pdm release plugin
-
 ### Changes
 
 ### Deprecated
@@ -18,5 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Fixed
+
+### Security
+
+## [0.2.0] - 2024-06-14
+
+### Added
+
+- pdm release plugin
 
 ### Security
