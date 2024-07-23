@@ -120,5 +120,5 @@ select = [
 convention = "google"
 
 [build-system]
-requires = ["pdm-backend==2.3.2"]
+requires = ["pdm-backend==2.3.3"]
 build-backend = "pdm.backend"
