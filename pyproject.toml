@@ -11,10 +11,9 @@ dependencies = [
     "pdm>=2.13.2,<3.0",
 ]
 optional-dependencies.dev = [
-    "black>=24.4.2",
     "ipdb>=0.13.13",
-    "mypy>=1.10.0",
-    "ruff>=0.4.9",
+    "mypy>=1.11.1",
+    "ruff>=0.5.4",
 ]
 
 [project.entry-points.pdm]
@@ -69,7 +68,11 @@ markers = "integration: mark a test as integration test"
 
 [tool.ruff]
 fix = true
+line-length = 88
 show-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
 
 [tool.ruff.lint]
 ignore = [
