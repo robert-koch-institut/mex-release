@@ -11,9 +11,9 @@ dependencies = [
     "pdm>=2.13.2,<3.0",
 ]
 optional-dependencies.dev = [
-    "ipdb>=0.13.13",
-    "mypy>=1.11.1",
-    "ruff>=0.5.4",
+    "ipdb>=0.13.13,<1",
+    "mypy>=1.11.0,<2",
+    "ruff>=0.5.4,<1",
 ]
 
 [project.entry-points.pdm]
