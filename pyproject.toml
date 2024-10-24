@@ -17,8 +17,8 @@ optional-dependencies.dev = [
 ]
 
 [project.entry-points.pdm]
-release = "release:release"
-setup-commit-signing = "setup_commit_signing:setup_commit_signing"
+release = "mex.release.release:release"
+setup-commit-signing = "mex.release.setup_commit_signing:setup_commit_signing"
 
 [tool.cruft]
 template = "https://github.com/robert-koch-institut/mex-template"
