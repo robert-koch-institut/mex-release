@@ -1,13 +1,12 @@
 import argparse
-import re
+
+from pathlib import Path
 from subprocess import run
-from datetime import date
 
 from pdm import termui
 from pdm.cli.commands.base import BaseCommand
 from pdm.core import Core
 from pdm.project import Project
-from pdm.project.project_file import PyProject
 
 
 class SetupCommitSigningCommand(BaseCommand):
@@ -15,8 +14,8 @@ class SetupCommitSigningCommand(BaseCommand):
 
     def handle(self, project: Project, options: argparse.Namespace) -> None:
         """Execute the setup commit signing command."""
-        run("./setup-commit-signing.sh")
-        
+        run(Path(__file__).parent/"setup-commit-signing.sh")  # noqa: S603
+
 
 def setup_commit_signing(core: Core) -> None:
     """Register the commit signing command as a pdm command."""
