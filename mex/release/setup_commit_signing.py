@@ -17,7 +17,9 @@ class SetupCommitSigningCommand(BaseCommand):
         ssh_path = Path.home() / ".ssh"
         private_key = ssh_path / "mex"
         public_key = ssh_path / "mex.pub"
+        print(run(["ls", "-lah", Path.home()]))
         ssh_path.mkdir(mode=700, exist_ok=True)
+        print(run(["ls", "-lah", Path.home()]))
         with private_key.open("wb") as fh:
             fh.write(base64.b64decode(os.environ["SIGNING_KEY"]))
         with public_key.open("wb") as fh:
