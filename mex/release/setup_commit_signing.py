@@ -20,7 +20,7 @@ class SetupCommitSigningCommand(BaseCommand):
         print(run(["ls", "-lah", Path.home()]))
         ssh_path.mkdir(exist_ok=True)
         print(run(["ls", "-lah", Path.home()]))
-        ssh_path.chmod(700)
+        ssh_path.chmod(0o700)
         print(run(["ls", "-lah", Path.home()]))
         with private_key.open("wb") as fh:
             fh.write(base64.b64decode(os.environ["SIGNING_KEY"]))
