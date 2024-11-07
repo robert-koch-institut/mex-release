@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- bump cookiecutter template to 916798
+- bump cookiecutter template to 6c467f
 - refactor directory structure of mex-release
 
 ### Deprecated
