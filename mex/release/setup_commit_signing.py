@@ -17,17 +17,13 @@ class SetupCommitSigningCommand(BaseCommand):
         ssh_path = Path.home() / ".ssh"
         private_key = ssh_path / "mex"
         public_key = ssh_path / "mex.pub"
-        print(run(["ls", "-lah", Path.home()]))
-        ssh_path.mkdir(exist_ok=True)
-        print(run(["ls", "-lah", Path.home()]))
-        ssh_path.chmod(0o700)
-        print(run(["ls", "-lah", Path.home()]))
+        ssh_path.mkdir(mode=0o700, exist_ok=True)
         with private_key.open("wb") as fh:
             fh.write(base64.b64decode(os.environ["SIGNING_KEY"]))
         with public_key.open("wb") as fh:
             fh.write(base64.b64decode(os.environ["SIGNING_PUB"]))
-        private_key.chmod(600)
-        public_key.chmod(600)
+        private_key.chmod(0o600)
+        public_key.chmod(0o600)
         run(["ssh-add", private_key])
         run(["git", "config", "--local", "user.email", os.environ["MEX_BOT_EMAIL"]])
         run(["git", "config", "--local", "user.name", os.environ["MEX_BOT_USER"]])
