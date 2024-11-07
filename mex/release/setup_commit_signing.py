@@ -1,9 +1,9 @@
 import argparse
-
+import base64
+import os
 from pathlib import Path
 from subprocess import run
 
-from pdm import termui
 from pdm.cli.commands.base import BaseCommand
 from pdm.core import Core
 from pdm.project import Project
@@ -14,7 +14,22 @@ class SetupCommitSigningCommand(BaseCommand):
 
     def handle(self, project: Project, options: argparse.Namespace) -> None:
         """Execute the setup commit signing command."""
-        run(Path(__file__).parent.resolve()/"setup-commit-signing.sh")  # noqa: S603
+        ssh_path = Path.home() / ".ssh"
+        private_key = ssh_path / "mex"
+        public_key = ssh_path / "mex.pub"
+        ssh_path.mkdir(mode=700, exist_ok=True)
+        with private_key.open("wb") as fh:
+            fh.write(base64.b64decode(os.environ["SIGNING_KEY"]))
+        with public_key.open("wb") as fh:
+            fh.write(base64.b64decode(os.environ["SIGNING_PUB"]))
+        private_key.chmod(600)
+        public_key.chmod(600)
+        run(["ssh-add", private_key])
+        run(["git", "config", "--local", "user.email", os.environ["MEX_BOT_EMAIL"]])
+        run(["git", "config", "--local", "user.name", os.environ["MEX_BOT_USER"]])
+        run(["git", "config", "--local", "gpg.format", "ssh"])
+        run(["git", "config", "--local", "user.signingkey", public_key])
+        run(["git", "config", "--local", "commit.gpgsign", "true"])
 
 
 def setup_commit_signing(core: Core) -> None:
