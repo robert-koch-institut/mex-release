@@ -7,7 +7,7 @@ Create new release with `pdm release VERSION`
 [![linting](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml)
 [![open-code](https://github.com/robert-koch-institut/mex-release/actions/workflows/open-code.yml/badge.svg)](https://gitlab.opencode.de/robert-koch-institut/mex/mex-release)
 
-## project
+## Project
 
 The Metadata Exchange (MEx) project is committed to improve the retrieval of RKI
 research data and projects. How? By focusing on metadata: instead of providing the
@@ -83,18 +83,13 @@ components of the MEx project are open-sourced under the same license as well.
 - update package dependencies using `pdm update-all`
 - update github actions in `.github/workflows/*.yml` manually
 
-### creating release
+### Creating release
 
 - run `pdm release RULE` to release a new version where RULE determines which part of
   the version to update and is one of `major`, `minor`, `patch`.
 
-### container workflow
-
-- build image with `make image`
-- run directly using docker `make run`
-- start with docker compose `make start`
-
-## commands
+## Commands
 
 - run `pdm release VERSION` to release a new version where VERSION matches the regular
- expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
+  expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
+- run `pdm setup-commit-signing` to configure commit signing in a CI/CD pipeline

@@ -1,7 +1,7 @@
 import argparse
 import re
 import subprocess
-from datetime import date
+from datetime import UTC, datetime
 
 from pdm import termui
 from pdm.cli.commands.base import BaseCommand
@@ -59,7 +59,7 @@ class Releaser:
         self.pyproject.ui.echo(" ".join(args))
         # use noqa because we check user input (bump) and all other args are hard
         # coded
-        stdout = subprocess.check_output(args).decode("utf-8")
+        stdout = subprocess.check_output(args).decode("utf-8")  # noqa: S603
         self.pyproject.ui.echo(
             stdout,
             verbosity=termui.Verbosity.NORMAL,
@@ -69,9 +69,8 @@ class Releaser:
     def check_working_tree(self) -> None:
         """Only continue if working tree is empty."""
         if self.run("git", "status", "--short"):
-            raise RuntimeError(
-                "Working tree is dirty. Can only release clean working tree."
-            )
+            msg = "Working tree is dirty. Can only release clean working tree."
+            raise RuntimeError(msg)
 
     def check_default_branch(self) -> None:
         """Only continue if default branch is checked out."""
@@ -81,16 +80,16 @@ class Releaser:
             r"HEAD branch: (\S+)", str(git_origin_branches)
         )[0]
         if git_branch != git_default_branch:
-            raise RuntimeError(
-                "Not on default branch. Can only release on default branch."
-            )
+            msg = "Not on default branch. Can only release on default branch."
+            raise RuntimeError(msg)
 
     def check_version_string(self) -> None:
         """Validate the version string to format `0.3.14`."""
         if not re.match(
             r"\d{1,4}\.\d{1,4}\.\d{1,4}", str(self.pyproject.metadata["version"])
         ):
-            raise RuntimeError("Current version string does not match expected format.")
+            msg = "Current version string does not match expected format."
+            raise RuntimeError(msg)
 
     def release(self) -> None:
         """Execute the release command."""
@@ -107,7 +106,8 @@ class Releaser:
         elif self.bump == "patch":
             new_version = f"{major}.{minor}.{int(patch) + 1}"
         else:
-            raise Exception("Unexpected bump value.")
+            msg = "Unexpected bump value."
+            raise ValueError(msg)
         self.pyproject.metadata["version"] = new_version
         self.pyproject.write()
 
@@ -119,7 +119,9 @@ class Releaser:
         # add a new unreleased section
         changelog = changelog.replace(
             "\n## [Unreleased]\n",
-            CHANGELOG_TEMPLATE.format(version=new_version, date=date.today()),
+            CHANGELOG_TEMPLATE.format(
+                version=new_version, date=datetime.now(tz=UTC).date()
+            ),
         )
         with open("CHANGELOG.md", "w") as fh:
             fh.write(changelog)

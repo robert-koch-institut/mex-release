@@ -1,6 +1,6 @@
-.PHONY: all test setup hooks install linter pytest wheel image run start docs
+.PHONY: all test setup hooks install linter wheel
 all: install test
-test: linter pytest
+test: linter
 
 LATEST = $(shell git describe --tags $(shell git rev-list --tags --max-count=1))
 PWD = $(shell pwd)
