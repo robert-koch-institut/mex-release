@@ -88,6 +88,8 @@ ignore = [
     "N805",   # Allow first argument of a method to be non-self (pydantic compat)
     "N815",   # Allow mixedCase variables in class scope (model compat)
     "RUF012", # Allow mutable class attributes (pydantic compat)
+    "S607",   # Allow starting a process with a partial executable path
+    "S603",   # Allow `subprocess` call: check for execution of untrusted input
 ]
 select = [
     "A",    # Flake8 builtin shaddow
