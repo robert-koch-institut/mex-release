@@ -2,6 +2,7 @@ import argparse
 import re
 import subprocess
 from datetime import UTC, datetime
+from pathlib import Path
 
 from pdm import termui
 from pdm.cli.commands.base import BaseCommand
@@ -112,7 +113,8 @@ class Releaser:
         self.pyproject.write()
 
         # rollover changelog sections
-        with open("CHANGELOG.md") as fh:
+        changelog_path = Path("CHANGELOG.md")
+        with changelog_path.open() as fh:
             changelog = fh.read()
         # remove empty subsections
         changelog = re.sub(r"^### [A-Za-z]+\s+(?=#)", "", changelog, flags=re.MULTILINE)
@@ -123,7 +125,7 @@ class Releaser:
                 version=new_version, date=datetime.now(tz=UTC).date()
             ),
         )
-        with open("CHANGELOG.md", "w") as fh:
+        with changelog_path.open("w") as fh:
             fh.write(changelog)
         self.pyproject.ui.echo(
             "Changes are written to [success]CHANGELOG.md[/].",
