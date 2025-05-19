@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/robert-koch-institut/mex-template",
-  "commit": "716a581e36bd544e0b34a7f92078435de557fa76",
+  "commit": "ed5deb106b3d34aa758dcd4f4d3628a1ffb2b159",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -8,7 +8,7 @@
       "short_summary": "Create new release with `pdm release VERSION`",
       "long_summary": "Create a new release, including changelog rollover, project version bump, commit, tag and push.",
       "_template": "https://github.com/robert-koch-institut/mex-template",
-      "_commit": "716a581e36bd544e0b34a7f92078435de557fa76"
+      "_commit": "ed5deb106b3d34aa758dcd4f4d3628a1ffb2b159"
     }
   },
   "directory": null
