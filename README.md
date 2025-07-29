@@ -92,4 +92,5 @@ components of the MEx project are open-sourced under the same license as well.
 
 - run `pdm release VERSION` to release a new version where VERSION matches the regular
   expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
+- run `pdm pick-unique-emoji` to pick a unique emoji for the current version
 - run `pdm setup-commit-signing` to configure commit signing in a CI/CD pipeline

@@ -1,0 +1,51 @@
+import argparse
+import hashlib
+import json
+import urllib.request
+from subprocess import run
+
+from pdm import termui
+from pdm.cli.commands.base import BaseCommand
+from pdm.core import Core
+from pdm.project import Project
+
+EMOJI_METADATA = (
+    "raw.githubusercontent.com/googlefonts/emoji-metadata/main/emoji_16_0_ordering.json"
+)
+
+
+class PickUniqueEmojiCommand(BaseCommand):
+    """Pick unique emoji."""
+
+    @staticmethod
+    def _run(*args: str) -> None:
+        """Run command with arguments and exit in case of non-zero return."""
+        run(list(args), check=True)  # noqa: S603
+
+    def handle(
+        self,
+        project: Project,
+        options: argparse.Namespace,  # noqa: ARG002
+    ) -> None:
+        """Execute the emoji picker command."""
+        with urllib.request.urlopen(f"https://{EMOJI_METADATA}") as response:
+            data = json.loads(response.read())
+        shortcodes = sorted(
+            shortcode
+            for group in data
+            for emoji in group.get("emoji", [])
+            for shortcode in emoji.get("shortcodes", [])
+        )
+        version_hash = hashlib.sha256(
+            str(project.pyproject.metadata["version"]).encode()
+        )
+        emoji = shortcodes[int(version_hash.hexdigest(), 16) % len(shortcodes)]
+        project.pyproject.ui.echo(
+            f":{emoji}:",
+            verbosity=termui.Verbosity.NORMAL,
+        )
+
+
+def pick_unique_emoji(core: Core) -> None:
+    """Register the emoji picker command as a pdm command."""
+    core.register_command(PickUniqueEmojiCommand, "pick-unique-emoji")
