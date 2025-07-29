@@ -1,7 +1,7 @@
 [project]
 name = "mex-release"
 version = "0.3.3"
-description = "Create new release with `pdm release VERSION`"
+description = "Release tools for the RKI MEx project."
 authors = [{ name = "MEx Team", email = "mex@rki.de" }]
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }

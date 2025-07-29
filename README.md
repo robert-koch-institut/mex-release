@@ -1,6 +1,6 @@
 # MEx release
 
-Create new release with `pdm release VERSION`
+Release tools for the RKI MEx project.
 
 [![cookiecutter](https://github.com/robert-koch-institut/mex-release/actions/workflows/cookiecutter.yml/badge.svg)](https://github.com/robert-koch-institut/mex-template)
 [![cve-scan](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml)
