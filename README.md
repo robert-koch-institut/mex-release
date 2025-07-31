@@ -1,6 +1,6 @@
 # MEx release
 
-Create new release with `pdm release VERSION`
+Release tools for the RKI MEx project.
 
 [![cookiecutter](https://github.com/robert-koch-institut/mex-release/actions/workflows/cookiecutter.yml/badge.svg)](https://github.com/robert-koch-institut/mex-template)
 [![cve-scan](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml)
@@ -92,4 +92,5 @@ components of the MEx project are open-sourced under the same license as well.
 
 - run `pdm release VERSION` to release a new version where VERSION matches the regular
   expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
+- run `pdm get-version-emoji` to get an emoji for the current project name and version
 - run `pdm setup-commit-signing` to configure commit signing in a CI/CD pipeline
