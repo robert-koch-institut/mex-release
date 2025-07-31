@@ -14,8 +14,8 @@ EMOJI_METADATA = (
 )
 
 
-class PickUniqueEmojiCommand(BaseCommand):
-    """Pick unique emoji."""
+class GetVersionEmojiCommand(BaseCommand):
+    """Pick an emoji shortcode for the unique hash of project name and version."""
 
     @staticmethod
     def _run(*args: str) -> None:
@@ -27,7 +27,7 @@ class PickUniqueEmojiCommand(BaseCommand):
         project: Project,
         options: argparse.Namespace,  # noqa: ARG002
     ) -> None:
-        """Execute the emoji picker command."""
+        """Execute the emoji getter command."""
         with urllib.request.urlopen(f"https://{EMOJI_METADATA}") as response:
             data = json.loads(response.read())
         shortcodes = sorted(
@@ -37,7 +37,10 @@ class PickUniqueEmojiCommand(BaseCommand):
             for shortcode in emoji.get("shortcodes", [])
         )
         version_hash = hashlib.sha256(
-            str(project.pyproject.metadata["version"]).encode()
+            (
+                f"{project.pyproject.metadata['name']}@"
+                f"{project.pyproject.metadata['version']}"
+            ).encode()
         )
         emoji = shortcodes[int(version_hash.hexdigest(), 16) % len(shortcodes)]
         project.pyproject.ui.echo(
@@ -46,6 +49,6 @@ class PickUniqueEmojiCommand(BaseCommand):
         )
 
 
-def pick_unique_emoji(core: Core) -> None:
-    """Register the emoji picker command as a pdm command."""
-    core.register_command(PickUniqueEmojiCommand, "pick-unique-emoji")
+def get_version_emoji(core: Core) -> None:
+    """Register the emoji getter command as a pdm command."""
+    core.register_command(GetVersionEmojiCommand, "get-version-emoji")

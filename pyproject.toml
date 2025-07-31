@@ -18,7 +18,7 @@ optional-dependencies.dev = [
 
 [project.entry-points.pdm]
 release = "mex.release.release:release"
-pick-unique-emoji = "mex.release.emoji:pick_unique_emoji"
+get-version-emoji = "mex.release.emoji:get_version_emoji"
 setup-commit-signing = "mex.release.sign:setup_commit_signing"
 
 [tool.cruft]
