@@ -9,11 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- add `get-version-emoji` command
-
 ### Changes
-
-- update mex-template to e886ec
 
 ### Deprecated
 
@@ -21,9 +17,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- fix release workflow auth
-
 ### Security
+
+## [0.3.4] - 2025-08-01
+
+### Added
+
+- add `get-version-emoji` command
+
+### Changes
+
+- update mex-template to e886ec
+
+### Fixed
+
+- fix release workflow auth
 
 ## [0.3.3] - 2025-05-19
 
