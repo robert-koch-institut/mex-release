@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- remove double colons from shortcode printing
+
 ### Security
 
 ## [0.3.4] - 2025-08-01
