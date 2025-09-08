@@ -1,6 +1,5 @@
-.PHONY: all test setup hooks install linter wheel
-all: install test
-test: linter
+.PHONY: all setup hooks install lint wheel
+all: install lint
 
 LATEST = $(shell git describe --tags $(shell git rev-list --tags --max-count=1))
 PWD = $(shell pwd)
@@ -21,12 +20,12 @@ install: setup hooks
 	@ echo installing package; \
 	pdm install-all; \
 
-linter:
+lint:
 	# run the linter hooks from pre-commit on all files
 	@ echo linting all files; \
-	pdm lint; \
+	pre-commit run --all-files; \
 
 wheel:
 	# build the python package
 	@ echo building wheel; \
-	pdm wheel; \
+	pdm build --no-sdist; \
