@@ -43,10 +43,7 @@ class GetVersionEmojiCommand(BaseCommand):
             ).encode()
         )
         emoji = shortcodes[int(version_hash.hexdigest(), 16) % len(shortcodes)]
-        project.pyproject.ui.echo(
-            f":{emoji}:",
-            verbosity=termui.Verbosity.NORMAL,
-        )
+        project.pyproject.ui.echo(emoji, verbosity=termui.Verbosity.NORMAL)
 
 
 def get_version_emoji(core: Core) -> None:
