@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- update cookiecutter template to e886ec4a4cddc865dedb40f9ead24530884110a8
+- update cookiecutter template to a287d7
 - rollback emoji font version to 15
 
 ### Deprecated
