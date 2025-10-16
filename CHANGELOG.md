@@ -11,18 +11,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- update cookiecutter template to a287d7
-- rollback emoji font version to 15
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
-- remove double colons from shortcode printing
-
 ### Security
+
+## [0.3.5] - 2025-10-16
+
+### Changes
+
+- update cookiecutter template to a287d7
+- rollback emoji font version to 15
+
+### Fixed
+
+- remove double colons from shortcode printing
 
 ## [0.3.4] - 2025-08-01
 
