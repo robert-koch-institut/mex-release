@@ -10,7 +10,7 @@ from pdm.core import Core
 from pdm.project import Project
 
 EMOJI_METADATA = (
-    "raw.githubusercontent.com/googlefonts/emoji-metadata/main/emoji_16_0_ordering.json"
+    "raw.githubusercontent.com/googlefonts/emoji-metadata/main/emoji_15_0_ordering.json"
 )
 
 
