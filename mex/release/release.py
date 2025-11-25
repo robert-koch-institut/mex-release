@@ -157,17 +157,17 @@ class Releaser:
         )
 
         # commit, tag and push
-        self.run(
-            "git",
-            "commit",
-            "-m",
-            f"bump version to {new_version}",
-            "CHANGELOG.md",
-            "pyproject.toml",
-        )
-        self.run("git", "tag", f"{new_version}")
-        self.run("git", "push")
-        self.run("git", "push", "--tags")
+        # self.run(
+        #     "git",
+        #     "commit",
+        #     "-m",
+        #     f"bump version to {new_version}",
+        #     "CHANGELOG.md",
+        #     "pyproject.toml",
+        # )
+        # self.run("git", "tag", f"{new_version}")
+        # self.run("git", "push")
+        # self.run("git", "push", "--tags")
 
         typer.secho(
             f"Successfully released version {new_version}!",
