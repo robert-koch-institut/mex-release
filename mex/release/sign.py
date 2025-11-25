@@ -7,9 +7,11 @@ import typer
 
 app = typer.Typer()
 
+
 def _run(*args: str) -> None:
     """Run command with arguments and exit in case of non-zero return."""
     run(list(args), check=True)  # noqa: S603
+
 
 @app.command()
 def setup_commit_signing() -> None:

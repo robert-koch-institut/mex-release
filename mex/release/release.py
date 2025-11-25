@@ -2,10 +2,13 @@ import re
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated, cast
 
 import tomlkit
 import typer
+
+if TYPE_CHECKING:
+    from tomlkit.items import Table
 
 app = typer.Typer()
 
@@ -50,16 +53,12 @@ class Releaser:
             # use noqa because we check user input (bump) and all other args are hard
             # coded
             result = subprocess.run(  # noqa: S603
-                args,
-                check=True,
-                capture_output=True,
-                text=True,
-                cwd=self.root
+                args, check=True, capture_output=True, text=True, cwd=self.root
             )
             output = result.stdout.strip()
             if output:
                 typer.echo(output)
-            return output
+            return output  # noqa: TRY300
         except subprocess.CalledProcessError as e:
             typer.secho(f"Error running command: {command}", fg=typer.colors.RED)
             typer.secho(e.stderr, fg=typer.colors.RED)
@@ -70,8 +69,8 @@ class Releaser:
         if self.run("git", "status", "--short"):
             typer.secho(
                 "Working tree is dirty. Can only release clean working tree.",
-                fg=typer.colors.RED
-                )
+                fg=typer.colors.RED,
+            )
             raise typer.Exit(code=1)
 
     def check_default_branch(self) -> None:
@@ -84,13 +83,13 @@ class Releaser:
         if git_branch != git_default_branch:
             typer.secho(
                 "Not on default branch. Can only release on default branch.",
-                fg=typer.colors.RED
-                )
+                fg=typer.colors.RED,
+            )
             raise typer.Exit(code=1)
 
     def get_current_version(self) -> str:
         """Extract version from pyproject data."""
-        return str(self.pyproject_data["project"]["version"])
+        return str(cast("Table", self.pyproject_data["project"])["version"])
 
     def check_version_string(self) -> None:
         """Validate the version string to format `0.3.14`."""
@@ -98,8 +97,8 @@ class Releaser:
         if not re.match(r"\d{1,4}\.\d{1,4}\.\d{1,4}", version):
             typer.secho(
                 "Current version string does not match expected format.",
-                fg=typer.colors.RED
-                )
+                fg=typer.colors.RED,
+            )
             raise typer.Exit(code=1)
 
     def release(self) -> None:
@@ -119,19 +118,16 @@ class Releaser:
         elif self.bump == "patch":
             new_version = f"{major}.{minor}.{int(patch) + 1}"
         else:
-            typer.secho(
-                "Unexpected bump value.",
-                fg=typer.colors.RED
-                )
+            typer.secho("Unexpected bump value.", fg=typer.colors.RED)
             raise typer.Exit(code=1)
 
         typer.secho(
             f"Bumping version: {current_version} -> {new_version}",
             fg=typer.colors.GREEN,
-            bold=True
-            )
+            bold=True,
+        )
 
-        self.pyproject_data["project"]["version"] = new_version
+        cast("Table", self.pyproject_data["project"])["version"] = new_version
 
         with Path.open(self.pyproject_path, "w", encoding="utf-8") as f:
             tomlkit.dump(self.pyproject_data, f)
@@ -152,8 +148,7 @@ class Releaser:
             fh.write(changelog)
 
         typer.secho(
-            "Changes are written to [success]CHANGELOG.md[/].",
-            fg=typer.colors.GREEN
+            "Changes are written to [success]CHANGELOG.md[/].", fg=typer.colors.GREEN
         )
 
         # commit, tag and push
@@ -172,15 +167,16 @@ class Releaser:
         typer.secho(
             f"Successfully released version {new_version}!",
             fg=typer.colors.GREEN,
-            bold=True
+            bold=True,
         )
+
 
 @app.command()
 def release(
     ctx: typer.Context,
     bump: Annotated[
         str, typer.Argument(help="Part of the version to update (major, minor, patch)")
-        ] = "patch"
+    ] = "patch",
 ) -> None:
     """Release a new version of the project."""
     project_root = ctx.obj.get("root")
@@ -189,11 +185,9 @@ def release(
         releaser = Releaser(project_root, bump)
         releaser.release()
     except Exception as e:
-        typer.secho(
-            "Release failed.",
-            fg=typer.colors.RED
-        )
+        typer.secho("Release failed.", fg=typer.colors.RED)
         raise typer.Exit(code=1) from e
+
 
 if __name__ == "__main__":
     app()
