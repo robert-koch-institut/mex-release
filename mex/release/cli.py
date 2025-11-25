@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import typer
 
 app = typer.Typer()
@@ -5,7 +7,37 @@ from mex.release.release import app as release_app
 
 app = typer.Typer()
 
-app.add_typer(release_app, name="release")
+def find_project_root(start_path: Path) -> Path:
+    """Looks for pyproject.toml."""
+    for path in [start_path] + list(start_path.parents):
+        if (path / "pyproject.toml").exists():
+            return path
+
+    msg = "No pyproject.toml found."
+    raise FileNotFoundError(msg)
+
+@app.callback()
+def common_setup(ctx: typer.Context) -> None:
+    """This Callback runs before each command. It looks for the root directory and puts
+    it into the context.
+    """
+    ctx.ensure_object(dict)
+
+    try:
+        root = find_project_root(Path.cwd())
+        ctx.obj["root"] = root
+    except FileNotFoundError as e:
+        typer.secho(
+            "Error: Cannot find project root (no pyproject.toml)",
+            fg=typer.colors.RED
+        )
+        raise typer.Exit(code=1) from e
+
+app.add_typer(release_app)
+
+def main() -> None:
+    """Entrypoint for cli script."""
+    app()
 
 if __name__ == "__main__":
-    app()
+    main()

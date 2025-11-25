@@ -90,7 +90,7 @@ class Releaser:
 
     def get_current_version(self) -> str:
         """Extract version from pyproject data."""
-        return str(self.pyproject_data.value["project"]["version"])
+        return str(self.pyproject_data["project"]["version"])
 
     def check_version_string(self) -> None:
         """Validate the version string to format `0.3.14`."""
@@ -105,7 +105,7 @@ class Releaser:
     def release(self) -> None:
         """Execute the release command."""
         self.check_working_tree()
-        #self.check_default_branch()
+        self.check_default_branch()
         self.check_version_string()
 
         current_version = self.get_current_version()
@@ -131,7 +131,7 @@ class Releaser:
             bold=True
             )
 
-        self.pyproject_data.value["project"]["version"] = new_version
+        self.pyproject_data["project"]["version"] = new_version
 
         with Path.open(self.pyproject_path, "w", encoding="utf-8") as f:
             tomlkit.dump(self.pyproject_data, f)
@@ -157,17 +157,17 @@ class Releaser:
         )
 
         # commit, tag and push
-        # self.run(
-        #     "git",
-        #     "commit",
-        #     "-m",
-        #     f"bump version to {new_version}",
-        #     "CHANGELOG.md",
-        #     "pyproject.toml",
-        # )
-        # self.run("git", "tag", f"{new_version}")
-        # self.run("git", "push")
-        # self.run("git", "push", "--tags")
+        self.run(
+            "git",
+            "commit",
+            "-m",
+            f"bump version to {new_version}",
+            "CHANGELOG.md",
+            "pyproject.toml",
+        )
+        self.run("git", "tag", f"{new_version}")
+        self.run("git", "push")
+        self.run("git", "push", "--tags")
 
         typer.secho(
             f"Successfully released version {new_version}!",
@@ -177,12 +177,13 @@ class Releaser:
 
 @app.command()
 def release(
+    ctx: typer.Context,
     bump: Annotated[
         str, typer.Argument(help="Part of the version to update (major, minor, patch)")
         ] = "patch"
 ) -> None:
     """Release a new version of the project."""
-    project_root = Path.cwd()
+    project_root = ctx.obj.get("root")
 
     try:
         releaser = Releaser(project_root, bump)
