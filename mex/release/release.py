@@ -190,7 +190,7 @@ def release(
         releaser.release()
     except Exception as e:
         typer.secho(
-            f"Release failed: {e}",
+            "Release failed.",
             fg=typer.colors.RED
         )
         raise typer.Exit(code=1) from e

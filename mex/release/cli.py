@@ -3,6 +3,7 @@ from pathlib import Path
 import typer
 
 app = typer.Typer()
+from mex.release.emoji import app as emoji_app
 from mex.release.release import app as release_app
 
 app = typer.Typer()
@@ -34,6 +35,7 @@ def common_setup(ctx: typer.Context) -> None:
         raise typer.Exit(code=1) from e
 
 app.add_typer(release_app)
+app.add_typer(emoji_app)
 
 def main() -> None:
     """Entrypoint for cli script."""
