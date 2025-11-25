@@ -5,6 +5,7 @@ import typer
 app = typer.Typer()
 from mex.release.emoji import app as emoji_app
 from mex.release.release import app as release_app
+from mex.release.sign import app as sign_app
 
 app = typer.Typer()
 
@@ -36,6 +37,7 @@ def common_setup(ctx: typer.Context) -> None:
 
 app.add_typer(release_app)
 app.add_typer(emoji_app)
+app.add_typer(sign_app)
 
 def main() -> None:
     """Entrypoint for cli script."""
