@@ -1,14 +1,13 @@
-import argparse
 import re
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Annotated
 
-from pdm import termui
-from pdm.cli.commands.base import BaseCommand
-from pdm.core import Core
-from pdm.project import Project
-from pdm.project.project_file import PyProject
+import tomlkit
+import typer
+
+app = typer.Typer()
 
 CHANGELOG_TEMPLATE = """
 ## [Unreleased]
@@ -29,49 +28,51 @@ CHANGELOG_TEMPLATE = """
 """
 
 
-class ReleaseCommand(BaseCommand):
-    """Set project version to the given version."""
-
-    def add_arguments(self, parser: argparse.ArgumentParser) -> None:
-        """Manipulate the argument parser to add more arguments."""
-        parser.add_argument(
-            "bump",
-            choices=("major", "minor", "patch"),
-            default="patch",
-            help="part of the project version to update",
-        )
-
-    def handle(self, project: Project, options: argparse.Namespace) -> None:
-        """Execute the release command."""
-        releaser = Releaser(project.pyproject, options.bump)
-        releaser.release()
-
-
 class Releaser:
     """Wrap the release functionality in a single object."""
 
-    def __init__(self, pyproject: PyProject, bump: str) -> None:
+    def __init__(self, project_root: Path, bump: str) -> None:
         """Create a new releaser instance."""
         self.bump = bump
-        self.pyproject = pyproject
+        self.root = project_root
+        self.pyproject_path = self.root / "pyproject.toml"
+        self.changelog_path = self.root / "CHANGELOG.md"
+
+        with Path.open(self.pyproject_path, encoding="utf-8") as f:
+            self.pyproject_data = tomlkit.load(f)
 
     def run(self, *args: str) -> str:
         """Run a command as subproccess, first print it, later print the output."""
-        self.pyproject.ui.echo(" ".join(args))
-        # use noqa because we check user input (bump) and all other args are hard
-        # coded
-        stdout = subprocess.check_output(args).decode("utf-8")  # noqa: S603
-        self.pyproject.ui.echo(
-            stdout,
-            verbosity=termui.Verbosity.NORMAL,
-        )
-        return stdout.strip()
+        command = " ".join(args)
+        typer.secho(f"> {command}", fg=typer.colors.BRIGHT_BLACK)
+
+        try:
+            # use noqa because we check user input (bump) and all other args are hard
+            # coded
+            result = subprocess.run(  # noqa: S603
+                args,
+                check=True,
+                capture_output=True,
+                text=True,
+                cwd=self.root
+            )
+            output = result.stdout.strip()
+            if output:
+                typer.echo(output)
+            return output
+        except subprocess.CalledProcessError as e:
+            typer.secho(f"Error running command: {command}", fg=typer.colors.RED)
+            typer.secho(e.stderr, fg=typer.colors.RED)
+            raise typer.Exit(code=1) from e
 
     def check_working_tree(self) -> None:
         """Only continue if working tree is empty."""
         if self.run("git", "status", "--short"):
-            msg = "Working tree is dirty. Can only release clean working tree."
-            raise RuntimeError(msg)
+            typer.secho(
+                "Working tree is dirty. Can only release clean working tree.",
+                fg=typer.colors.RED
+                )
+            raise typer.Exit(code=1)
 
     def check_default_branch(self) -> None:
         """Only continue if default branch is checked out."""
@@ -81,16 +82,25 @@ class Releaser:
             r"HEAD branch: (\S+)", str(git_origin_branches)
         )[0]
         if git_branch != git_default_branch:
-            msg = "Not on default branch. Can only release on default branch."
-            raise RuntimeError(msg)
+            typer.secho(
+                "Not on default branch. Can only release on default branch.",
+                fg=typer.colors.RED
+                )
+            raise typer.Exit(code=1)
+
+    def get_current_version(self) -> str:
+        """Extract version from pyproject data."""
+        return str(self.pyproject_data.value["project"]["version"])
 
     def check_version_string(self) -> None:
         """Validate the version string to format `0.3.14`."""
-        if not re.match(
-            r"\d{1,4}\.\d{1,4}\.\d{1,4}", str(self.pyproject.metadata["version"])
-        ):
-            msg = "Current version string does not match expected format."
-            raise RuntimeError(msg)
+        version = self.get_current_version()
+        if not re.match(r"\d{1,4}\.\d{1,4}\.\d{1,4}", version):
+            typer.secho(
+                "Current version string does not match expected format.",
+                fg=typer.colors.RED
+                )
+            raise typer.Exit(code=1)
 
     def release(self) -> None:
         """Execute the release command."""
@@ -98,8 +108,10 @@ class Releaser:
         self.check_default_branch()
         self.check_version_string()
 
+        current_version = self.get_current_version()
+        major, minor, patch = current_version.split(".")
+
         # update project version in toml
-        major, minor, patch = str(self.pyproject.metadata["version"]).split(".")
         if self.bump == "major":
             new_version = f"{int(major) + 1}.0.0"
         elif self.bump == "minor":
@@ -107,14 +119,25 @@ class Releaser:
         elif self.bump == "patch":
             new_version = f"{major}.{minor}.{int(patch) + 1}"
         else:
-            msg = "Unexpected bump value."
-            raise ValueError(msg)
-        self.pyproject.metadata["version"] = new_version
-        self.pyproject.write()
+            typer.secho(
+                "Unexpected bump value.",
+                fg=typer.colors.RED
+                )
+            raise typer.Exit(code=1)
+
+        typer.secho(
+            f"Bumping version: {current_version} -> {new_version}",
+            fg=typer.colors.GREEN,
+            bold=True
+            )
+
+        self.pyproject_data.value["project"]["version"] = new_version
+
+        with Path.open(self.pyproject_path, "w", encoding="utf-8") as f:
+            tomlkit.dump(self.pyproject_data, f)
 
         # rollover changelog sections
-        changelog_path = Path("CHANGELOG.md")
-        with changelog_path.open() as fh:
+        with Path.open(self.changelog_path, "r", encoding="utf-8") as fh:
             changelog = fh.read()
         # remove empty subsections
         changelog = re.sub(r"^### [A-Za-z]+\s+(?=#)", "", changelog, flags=re.MULTILINE)
@@ -125,11 +148,12 @@ class Releaser:
                 version=new_version, date=datetime.now(tz=UTC).date()
             ),
         )
-        with changelog_path.open("w") as fh:
+        with Path.open(self.changelog_path, "w", encoding="utf-8") as fh:
             fh.write(changelog)
-        self.pyproject.ui.echo(
+
+        typer.secho(
             "Changes are written to [success]CHANGELOG.md[/].",
-            verbosity=termui.Verbosity.NORMAL,
+            fg=typer.colors.GREEN
         )
 
         # commit, tag and push
@@ -145,7 +169,30 @@ class Releaser:
         self.run("git", "push")
         self.run("git", "push", "--tags")
 
+        typer.secho(
+            f"Successfully released version {new_version}!",
+            fg=typer.colors.GREEN,
+            bold=True
+        )
 
-def release(core: Core) -> None:
-    """Register the release command as a pdm command."""
-    core.register_command(ReleaseCommand, "release")
+@app.command()
+def release(
+    bump: Annotated[
+        str, typer.Argument(help="Part of the version to update (major, minor, patch)")
+        ] = "patch"
+) -> None:
+    """Release a new version of the project."""
+    project_root = Path.cwd()
+
+    try:
+        releaser = Releaser(project_root, bump)
+        releaser.release()
+    except Exception as e:
+        typer.secho(
+            f"Release failed: {e}",
+            fg=typer.colors.RED
+        )
+        raise typer.Exit(code=1) from e
+
+if __name__ == "__main__":
+    app()
