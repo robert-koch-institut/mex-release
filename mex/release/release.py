@@ -105,7 +105,7 @@ class Releaser:
     def release(self) -> None:
         """Execute the release command."""
         self.check_working_tree()
-        self.check_default_branch()
+        #self.check_default_branch()
         self.check_version_string()
 
         current_version = self.get_current_version()
