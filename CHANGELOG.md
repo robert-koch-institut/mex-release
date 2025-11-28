@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - bumped cookiecutter template to https://github.com/robert-koch-institut/mex-template/commit/a67c71
 - bumped cookiecutter template to https://github.com/robert-koch-institut/mex-template/commit/6009e2
 - bumped cookiecutter template to https://github.com/robert-koch-institut/mex-template/commit/3c389d
+- move from pdm scripts to standalone typer CLI
 
 ### Deprecated
 
