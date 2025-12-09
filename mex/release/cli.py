@@ -46,4 +46,3 @@ app.add_typer(sign_app)
 def main() -> None:
     """Entrypoint for cli script."""
     app()
-

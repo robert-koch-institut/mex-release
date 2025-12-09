@@ -37,4 +37,3 @@ def get_emoji(ctx: typer.Context) -> None:
     version_hash = hashlib.sha256((f"{project_name}@{project_version}").encode())
     emoji = shortcodes[int(version_hash.hexdigest(), 16) % len(shortcodes)]
     typer.echo(emoji)
-
