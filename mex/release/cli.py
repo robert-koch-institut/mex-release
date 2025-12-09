@@ -47,6 +47,3 @@ def main() -> None:
     """Entrypoint for cli script."""
     app()
 
-
-if __name__ == "__main__":
-    main()
