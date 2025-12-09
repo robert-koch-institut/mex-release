@@ -8,8 +8,6 @@ from mex.release.sign import app as sign_app
 
 app = typer.Typer()
 
-app = typer.Typer()
-
 
 def find_project_root(start_path: Path) -> Path:
     """Looks for pyproject.toml."""
