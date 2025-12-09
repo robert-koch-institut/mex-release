@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/robert-koch-institut/mex-template",
-  "commit": "6009e248d0af40a236c73776716f077c9a9cc313",
+  "commit": "7c3e752b1fa728e1b003be1bdf5190b19bbc1db6",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -8,7 +8,7 @@
       "short_summary": "Release tools for the RKI MEx project.",
       "long_summary": "Create a new release, including changelog rollover, project version bump, commit, tag and push.",
       "_template": "https://github.com/robert-koch-institut/mex-template",
-      "_commit": "6009e248d0af40a236c73776716f077c9a9cc313"
+      "_commit": "7c3e752b1fa728e1b003be1bdf5190b19bbc1db6"
     }
   },
   "directory": null
