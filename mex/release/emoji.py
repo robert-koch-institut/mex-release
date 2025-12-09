@@ -38,6 +38,3 @@ def get_emoji(ctx: typer.Context) -> None:
     emoji = shortcodes[int(version_hash.hexdigest(), 16) % len(shortcodes)]
     typer.echo(emoji)
 
-
-if __name__ == "__main__":
-    app()
