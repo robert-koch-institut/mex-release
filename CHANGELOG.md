@@ -11,12 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- move from pdm scripts to standalone typer CLI
-- updated template to https://github.com/robert-koch-institut/mex-template/commit/7c3e75
-- updated template to https://github.com/robert-koch-institut/mex-template/commit/a67c71
-- updated template to https://github.com/robert-koch-institut/mex-template/commit/6009e2
-- updated template to https://github.com/robert-koch-institut/mex-template/commit/3c389d
-
 ### Deprecated
 
 ### Removed
@@ -24,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.0.0] - 2025-12-11
+
+### Changes
+
+- move from pdm scripts to standalone typer CLI
+- updated template to https://github.com/robert-koch-institut/mex-template/commit/7c3e75
+- updated template to https://github.com/robert-koch-institut/mex-template/commit/a67c71
+- updated template to https://github.com/robert-koch-institut/mex-template/commit/6009e2
+- updated template to https://github.com/robert-koch-institut/mex-template/commit/3c389d
 
 ## [0.3.5] - 2025-10-16
 
