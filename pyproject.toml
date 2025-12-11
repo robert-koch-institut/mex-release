@@ -8,7 +8,8 @@ license = { file = "LICENSE" }
 urls = { Repository = "https://github.com/robert-koch-institut/mex-release" }
 requires-python = ">=3.11,<3.12"
 dependencies = [
-    "pdm>=2,<3",
+    "typer>=0.20.0",
+    "tomlkit>=0.13.3",
 ]
 optional-dependencies.dev = [
     "ipdb>=0.13",
@@ -16,10 +17,8 @@ optional-dependencies.dev = [
     "ruff>=0.14",
 ]
 
-[project.entry-points.pdm]
-release = "mex.release.release:release"
-get-version-emoji = "mex.release.emoji:get_version_emoji"
-setup-commit-signing = "mex.release.sign:setup_commit_signing"
+[project.scripts]
+mex = "mex.release.cli:main"
 
 [tool.cruft]
 template = "https://github.com/robert-koch-institut/mex-template"
