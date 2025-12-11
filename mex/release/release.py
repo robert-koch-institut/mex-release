@@ -187,7 +187,3 @@ def release(
     except Exception as e:
         typer.secho("Release failed.", fg=typer.colors.RED)
         raise typer.Exit(code=1) from e
-
-
-if __name__ == "__main__":
-    app()
