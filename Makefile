@@ -18,7 +18,7 @@ hooks:
 install: setup hooks
 	# install packages from lock file in local virtual environment
 	@ echo installing package; \
-	pdm install-all; \
+	uv sync; \
 
 lint:
 	# run the linter hooks from pre-commit on all files
