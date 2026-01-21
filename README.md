@@ -83,5 +83,5 @@ components of the MEx project are open-sourced under the same license as well.
 
 - run `mex release VERSION` to release a new version where VERSION matches the regular
   expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
-- run `mex get-version-emoji` to get an emoji for the current project name and version
+- run `mex get-emoji` to get an emoji for the current project name and version
 - run `mex setup-commit-signing` to configure commit signing in a CI/CD pipeline
