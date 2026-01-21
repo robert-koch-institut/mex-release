@@ -11,7 +11,9 @@ dependencies = [
     "typer>=0.20.0",
     "tomlkit>=0.13.3",
 ]
-optional-dependencies.dev = [
+
+[dependency-groups]
+dev = [
     "ipdb>=0.13",
     "mypy>=1",
     "ruff>=0.14",
@@ -31,19 +33,6 @@ context = 5
 python_version = "3.11"
 show_error_codes = true
 strict = true
-
-[tool.pdm]
-distribution = true
-
-[tool.pdm.scripts]
-update-all = { cmd = "pdm update --group :all --update-all --save-compatible" }
-lock-all = { cmd = "pdm lock --group :all --python='==3.11.*'" }
-install-all = { cmd = "pdm install --group :all --frozen-lockfile" }
-apidoc = { cmd = "pdm run sphinx-apidoc -f -o docs/source mex" }
-sphinx = { cmd = "pdm run sphinx-build -aE -b dirhtml docs docs/dist" }
-doc = { composite = ["apidoc", "sphinx"] }
-lint = { cmd = "pre-commit run --all-files" }
-test = { cmd = "pdm run pytest --numprocesses=auto --dist=worksteal" }
 
 [tool.pydantic-mypy]
 warn_untyped_fields = true
@@ -124,5 +113,11 @@ known-first-party = ["mex", "tests"]
 convention = "google"
 
 [build-system]
-requires = ["pdm-backend==2.4.6"]
-build-backend = "pdm.backend"
+requires = ["hatchling>=1.28.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mex"]
+
+[tool.hatch.build.targets.sdist]
+packages = ["mex"]

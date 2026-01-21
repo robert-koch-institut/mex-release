@@ -71,17 +71,17 @@ components of the MEx project are open-sourced under the same license as well.
 - update boilerplate files with `cruft update`
 - update global requirements in `requirements.txt` manually
 - update git hooks with `pre-commit autoupdate`
-- update package dependencies using `pdm update-all`
+- update package dependencies using `uv lock --upgrade` and `uv sync`
 - update github actions in `.github/workflows/*.yml` manually
 
 ### Creating release
 
-- run `pdm release RULE` to release a new version where RULE determines which part of
+- run `mex release RULE` to release a new version where RULE determines which part of
   the version to update and is one of `major`, `minor`, `patch`.
 
 ## Commands
 
-- run `pdm release VERSION` to release a new version where VERSION matches the regular
+- run `mex release VERSION` to release a new version where VERSION matches the regular
   expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
-- run `pdm get-version-emoji` to get an emoji for the current project name and version
-- run `pdm setup-commit-signing` to configure commit signing in a CI/CD pipeline
+- run `mex get-emoji` to get an emoji for the current project name and version
+- run `mex setup-commit-signing` to configure commit signing in a CI/CD pipeline
