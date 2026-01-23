@@ -132,6 +132,9 @@ class Releaser:
         with Path.open(self.pyproject_path, "w", encoding="utf-8") as f:
             tomlkit.dump(self.pyproject_data, f)
 
+        self.run("uv", "lock", "--refresh")
+        typer.secho("Lock file updated at [success]uv.lock[/].", fg=typer.colors.GREEN)
+
         # rollover changelog sections
         with Path.open(self.changelog_path, "r", encoding="utf-8") as fh:
             changelog = fh.read()
@@ -159,6 +162,7 @@ class Releaser:
             f"bump version to {new_version}",
             "CHANGELOG.md",
             "pyproject.toml",
+            "uv.lock",
         )
         self.run("git", "tag", f"{new_version}")
         self.run("git", "push")
