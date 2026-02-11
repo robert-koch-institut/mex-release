@@ -9,13 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- prepare support for python 3.14
-- added test suite for mex-release
-
 ### Changes
-
-- updated template to https://github.com/robert-koch-institut/mex-template/commit/81bc5b
-- updated template to https://github.com/robert-koch-institut/mex-template/commit/33ca3a
 
 ### Deprecated
 
@@ -24,6 +18,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.3.0] - 2026-02-11
+
+### Added
+
+- prepare support for python 3.14
+- added test suite for mex-release
+
+### Changes
+
+- updated template to https://github.com/robert-koch-institut/mex-template/commit/81bc5b
+- updated template to https://github.com/robert-koch-institut/mex-template/commit/33ca3a
 
 ## [1.2.1] - 2026-01-23
 
