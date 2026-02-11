@@ -1,4 +1,4 @@
-name: Linting
+name: Testing
 
 on:
   push:
@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -65,5 +65,5 @@ jobs:
           echo ${{ matrix.python-version }} > .python-version
           make install
 
-      - name: Run linters
-        run: make lint
+      - name: Run test suite
+        run: make unit
