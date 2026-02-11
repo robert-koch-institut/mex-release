@@ -6,6 +6,7 @@ Release tools for the RKI MEx project.
 [![cve-scan](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml)
 [![linting](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml)
 [![open-code](https://github.com/robert-koch-institut/mex-release/actions/workflows/open-code.yml/badge.svg)](https://gitlab.opencode.de/robert-koch-institut/mex/mex-release)
+[![testing](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml)
 
 ## Project
 
@@ -65,6 +66,8 @@ components of the MEx project are open-sourced under the same license as well.
 ### Linting
 
 - run all linters with `make lint` or `.\mex.bat lint`
+- run unit and integration tests with `make test` or `.\mex.bat test`
+- run just the unit tests with `make unit` or `.\mex.bat unit`
 
 ### Updating dependencies
 

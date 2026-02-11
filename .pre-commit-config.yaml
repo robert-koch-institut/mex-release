@@ -32,8 +32,8 @@ repos:
     hooks:
     - id: mypy
       name: mypy
-      entry: uv run dmypy run --timeout 7200 -- mex
-      files: ^mex/
+      entry: uv run dmypy run --timeout 7200 -- mex tests
+      files: ^(mex|tests)/
       language: system
       pass_filenames: false
       types: [python]
