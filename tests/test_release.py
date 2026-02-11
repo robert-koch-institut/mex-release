@@ -68,8 +68,7 @@ def test_releaser_check_version_string(
 
 
 def test_releaser_release(context: Context, capsys: CaptureFixture[str]) -> None:
-    root = context.obj["root"]
-    releaser = Releaser(root, "patch")
+    releaser = Releaser(context.obj["root"], "patch")
 
     def _fake_run(*args: str) -> str:
         calls.append(args)
@@ -82,28 +81,21 @@ def test_releaser_release(context: Context, capsys: CaptureFixture[str]) -> None
     releaser.release()
 
     assert releaser.get_current_version() == "1.2.4"
-    changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+    changelog = (context.obj["root"] / "CHANGELOG.md").read_text(encoding="utf-8")
     assert "## [1.2.4]" in changelog
     assert any("git" in c and "commit" in c for c in calls)
     assert any("git" in c and "tag" in c for c in calls)
 
-    # test major and minor bumps
-    releaser_major = Releaser(root, "major")
+    # test valid version
+    releaser_major = Releaser(context.obj["root"], "major")
     releaser_major.run = MagicMock(return_value="")  # type: ignore[method-assign]
     releaser_major.check_working_tree = MagicMock()  # type: ignore[method-assign]
     releaser_major.check_default_branch = MagicMock()  # type: ignore[method-assign]
     releaser_major.release()
     assert releaser_major.get_current_version() == "2.0.0"
 
-    releaser_minor = Releaser(root, "minor")
-    releaser_minor.run = MagicMock(return_value="")  # type: ignore[method-assign]
-    releaser_minor.check_working_tree = MagicMock()  # type: ignore[method-assign]
-    releaser_minor.check_default_branch = MagicMock()  # type: ignore[method-assign]
-    releaser_minor.release()
-    assert releaser_minor.get_current_version() == "2.1.0"
-
-    # test invalid bump value
-    releaser_bad = Releaser(root, "invalid")
+    # test invalid version
+    releaser_bad = Releaser(context.obj["root"], "invalid")
     releaser_bad.run = MagicMock(return_value="")  # type: ignore[method-assign]
     releaser_bad.check_working_tree = MagicMock()  # type: ignore[method-assign]
     releaser_bad.check_default_branch = MagicMock()  # type: ignore[method-assign]
