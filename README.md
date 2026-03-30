@@ -63,7 +63,7 @@ components of the MEx project are open-sourced under the same license as well.
 - on unix, run `make install`
 - on windows, run `.\mex.bat install`
 
-### Linting
+### Linting and testing
 
 - run all linters with `make lint` or `.\mex.bat lint`
 - run unit and integration tests with `make test` or `.\mex.bat test`
@@ -74,7 +74,7 @@ components of the MEx project are open-sourced under the same license as well.
 - update boilerplate files with `cruft update`
 - update global requirements in `requirements.txt` manually
 - update git hooks with `pre-commit autoupdate`
-- update package dependencies using `uv lock --upgrade` and `uv sync`
+- update package dependencies using `uv sync --upgrade`
 - update github actions in `.github/workflows/*.yml` manually
 
 ### Creating release
