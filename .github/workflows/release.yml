@@ -85,17 +85,19 @@ jobs:
       name: pypi
       url: https://pypi.org/p/mex-release
     permissions:
+      contents: write
       id-token: write  # IMPORTANT: mandatory for trusted publishing
+
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 1
           ref: ${{ needs.release.outputs.tag }}
           persist-credentials: false
 
       - name: Cache requirements
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         env:
           cache-name: cache-requirements
         with:
@@ -123,5 +125,5 @@ jobs:
             gh release upload ${{ needs.release.outputs.tag }} ${filename};
           done
 
-      - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0

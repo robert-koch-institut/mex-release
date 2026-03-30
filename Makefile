@@ -1,5 +1,5 @@
 .PHONY: all setup hooks install lint unit test wheel
-all: install lint
+all: install lint test
 
 LATEST = $(shell git describe --tags $(shell git rev-list --tags --max-count=1))
 PWD = $(shell pwd)
