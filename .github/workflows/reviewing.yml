@@ -5,13 +5,16 @@ on:
     types:
       - opened
       - reopened
+      - synchronize
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  assignee:
+  add-assignee:
+    name: Add assignee
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -40,7 +43,36 @@ jobs:
       - name: Add assignee
         if: ${{ !github.event.pull_request.assignee.login }}
         env:
-          GH_TOKEN: ${{ secrets.MEX_PULL_REQUEST_WRITE_TOKEN }}
+          GH_TOKEN: ${{ secrets.MEX_COLLAB_WRITE_TOKEN }}
         run: |
           gh pr edit ${{ github.event.pull_request.html_url }} \
           --add-assignee "${{ steps.resolve.outputs.user_name }}"
+
+  check-changelog:
+    name: Check changelog
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Check for CHANGELOG.md changes
+        run: |
+          if [ "${{ github.actor }}" = "RKIMetadataExchange" ]; then
+            echo "Actor is 'RKIMetadataExchange'. Skipping changelog check."
+            exit 0;
+          fi
+
+          if git diff --quiet "origin/${{ github.base_ref }}"...HEAD -- "CHANGELOG.md"; then
+            echo "Error: The CHANGELOG.md has not been modified."
+            echo "Please add your changes to CHANGELOG.md before merging."
+            exit 1
+          else
+            echo "CHANGELOG.md has been modified."
+            exit 0
+          fi
