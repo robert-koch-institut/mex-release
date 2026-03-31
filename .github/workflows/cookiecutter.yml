@@ -34,6 +34,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Cache requirements
         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
@@ -103,7 +104,7 @@ jobs:
       - name: Create pull request
         if: steps.update.outputs.template_ref
         env:
-          GH_TOKEN: ${{ secrets.MEX_PULL_REQUEST_WRITE_TOKEN }}
+          GH_TOKEN: ${{ secrets.MEX_COLLAB_WRITE_TOKEN }}
           template_ref: ${{ steps.update.outputs.template_ref }}
         run: |
           gh pr create \
