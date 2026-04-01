@@ -5,7 +5,7 @@ Release tools for the RKI MEx project.
 [![cookiecutter](https://github.com/robert-koch-institut/mex-release/actions/workflows/cookiecutter.yml/badge.svg)](https://github.com/robert-koch-institut/mex-template)
 [![cve-scan](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml)
 [![linting](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml)
-[![open-code](https://github.com/robert-koch-institut/mex-release/actions/workflows/open-code.yml/badge.svg)](https://gitlab.opencode.de/robert-koch-institut/mex/mex-release)
+[![opencode](https://github.com/robert-koch-institut/mex-release/actions/workflows/opencode.yml/badge.svg)](https://gitlab.opencode.de/robert-koch-institut/mex/mex-release)
 [![testing](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml)
 
 ## Project
