@@ -72,6 +72,9 @@ def test_releaser_release(context: Context, capsys: CaptureFixture[str]) -> None
 
     def _fake_run(*args: str) -> str:
         calls.append(args)
+        if args[:2] == ("git", "diff"):
+            # pyproject.toml + uv.lock both bump 1.2.3 -> 1.2.4
+            return '-version = "1.2.3"\n+version = "1.2.4"\n' * 2
         return ""
 
     calls: list[tuple[str, ...]] = []
@@ -88,7 +91,14 @@ def test_releaser_release(context: Context, capsys: CaptureFixture[str]) -> None
 
     # test valid version
     releaser_major = Releaser(context.obj["root"], "major")
-    releaser_major.run = MagicMock(return_value="")  # type: ignore[method-assign]
+
+    def _fake_run_major(*args: str) -> str:
+        if args[:2] == ("git", "diff"):
+            # pyproject.toml + uv.lock both bump 1.2.4 -> 2.0.0
+            return '-version = "1.2.4"\n+version = "2.0.0"\n' * 2
+        return ""
+
+    releaser_major.run = MagicMock(side_effect=_fake_run_major)  # type: ignore[method-assign]
     releaser_major.check_working_tree = MagicMock()  # type: ignore[method-assign]
     releaser_major.check_default_branch = MagicMock()  # type: ignore[method-assign]
     releaser_major.release()
@@ -102,6 +112,19 @@ def test_releaser_release(context: Context, capsys: CaptureFixture[str]) -> None
     with pytest.raises(Exit):
         releaser_bad.release()
     assert "Unexpected bump value" in capsys.readouterr().out
+
+
+def test_releaser_release_unexpected_changeset(
+    context: Context, capsys: CaptureFixture[str]
+) -> None:
+    releaser = Releaser(context.obj["root"], "patch")
+    # git diff returns an empty changeset, so the expected version bump is missing
+    releaser.run = MagicMock(return_value="")  # type: ignore[method-assign]
+    releaser.check_working_tree = MagicMock()  # type: ignore[method-assign]
+    releaser.check_default_branch = MagicMock()  # type: ignore[method-assign]
+    with pytest.raises(Exit):
+        releaser.release()
+    assert "Unexpected changeset" in capsys.readouterr().out
 
 
 def test_release(context: Context, capsys: CaptureFixture[str]) -> None:

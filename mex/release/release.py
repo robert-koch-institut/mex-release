@@ -132,8 +132,20 @@ class Releaser:
         with Path.open(self.pyproject_path, "w", encoding="utf-8") as f:
             tomlkit.dump(self.pyproject_data, f)
 
-        self.run("uv", "lock", "--refresh")
+        # write pyproject version to lock file
+        self.run("uv", "lock")
         typer.secho("Lock file updated at [success]uv.lock[/].", fg=typer.colors.GREEN)
+
+        # verify pyproject and lock file
+        actual_diff = self.run("git", "diff", "--unified=0")
+        expected_diff = (
+            rf'-version = "{re.escape(current_version)}"\n'
+            rf'\+version = "{re.escape(new_version)}"'
+        )
+        expected_version_changes = 2  # pyproject.toml + uv.lock
+        if len(re.findall(expected_diff, actual_diff)) != expected_version_changes:
+            typer.secho(f"Unexpected changeset:\n{actual_diff}", fg=typer.colors.RED)
+            raise typer.Exit(code=1)
 
         # rollover changelog sections
         with Path.open(self.changelog_path, "r", encoding="utf-8") as fh:
@@ -164,9 +176,8 @@ class Releaser:
             "pyproject.toml",
             "uv.lock",
         )
-        self.run("git", "tag", f"{new_version}")
-        self.run("git", "push")
-        self.run("git", "push", "--tags")
+        self.run("git", "tag", "-a", f"{new_version}", "-m", f"{new_version}")
+        self.run("git", "push", "--atomic", "--follow-tags")
 
         typer.secho(
             f"Successfully released version {new_version}!",
