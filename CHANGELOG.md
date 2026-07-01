@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
+- new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.3.0
 - switch to annotated tags so we can push tag and commit atomically
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/f970f1
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/26afa8
