@@ -20,6 +20,7 @@ downloads/
 eggs/
 lib/
 lib64/
+locked-requirements.txt
 MANIFEST
 parts/
 sdist/
@@ -111,25 +112,8 @@ dmypy.json
 
 # VisualStudioCode
 .vscode/*
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/settings.json
-!.vscode/tasks.json
 .history/
 *.code-workspace
-
-# Node and Angular
-.angular/
-.nodeenv
-.sass-cache/
-connect.lock
-coverage
-libpeerconnection.log
-node_modules
-npm-debug.log
-out-tsc
-testem.log
-typings
 
 # SQLite databases
 *.db
