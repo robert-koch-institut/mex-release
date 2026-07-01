@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.4.0] - 2026-07-01
+
+### Changes
+
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.3.0
 - switch to annotated tags so we can push tag and commit atomically
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/f970f1
@@ -18,15 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/57105a
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/dd987e
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - stop refreshing packages as part of release process, only lock new version of repo
-
-### Security
 
 ## [1.3.3] - 2026-04-01
 
