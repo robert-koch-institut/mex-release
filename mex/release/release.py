@@ -176,8 +176,8 @@ class Releaser:
             "pyproject.toml",
             "uv.lock",
         )
-        self.run("git", "tag", f"{new_version}")
-        self.run("git", "git", "push", "--atomic", "--follow-tags")
+        self.run("git", "tag", "-a", f"{new_version}", "-m", f"{new_version}")
+        self.run("git", "push", "--atomic", "--follow-tags")
 
         typer.secho(
             f"Successfully released version {new_version}!",
