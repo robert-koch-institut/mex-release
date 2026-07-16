@@ -14,6 +14,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "click>=8",
     "ipdb>=0.13",
     "mypy>=1",
     "pytest-cov>=6",
