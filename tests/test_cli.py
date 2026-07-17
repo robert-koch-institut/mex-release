@@ -30,13 +30,13 @@ def test_common_setup(
 ) -> None:
     (tmp_path / "pyproject.toml").touch()
     monkeypatch.chdir(tmp_path)
-    ctx = Context(Command("test"))
+    ctx = Context(Command("test"))  # type: ignore[arg-type]
     ctx.ensure_object(dict)
     common_setup(ctx)
     assert ctx.obj["root"] == tmp_path
 
     with patch("mex.release.cli.find_project_root", side_effect=FileNotFoundError):
-        ctx_fail = Context(Command("test"))
+        ctx_fail = Context(Command("test"))  # type: ignore[arg-type]
         ctx_fail.ensure_object(dict)
         with pytest.raises(Exit):
             common_setup(ctx_fail)

@@ -18,4 +18,4 @@ def context(monkeypatch: MonkeyPatch, tmp_path: Path) -> Context:
     changelog = tmp_path / "CHANGELOG.md"
     changelog.write_text(f"# Changelog\n\n{CHANGELOG_TEMPLATE}", encoding="utf-8")
     monkeypatch.chdir(tmp_path)
-    return Context(Command("test"), obj={"root": tmp_path})
+    return Context(Command("test"), obj={"root": tmp_path})  # type: ignore[arg-type]

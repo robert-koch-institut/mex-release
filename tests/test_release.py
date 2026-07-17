@@ -61,7 +61,7 @@ def test_releaser_check_version_string(
     releaser = Releaser(context.obj["root"], "patch")
     releaser.check_version_string()
 
-    releaser.pyproject_data["project"]["version"] = "invalid"  # type: ignore[index]
+    releaser.pyproject_data["project"]["version"] = "invalid"
     with pytest.raises(Exit):
         releaser.check_version_string()
     assert "does not match expected format" in capsys.readouterr().out
