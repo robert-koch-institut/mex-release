@@ -111,5 +111,6 @@ cosign verify-blob \
 
 - run `mex release VERSION` to release a new version where VERSION matches the regular
   expression: `\d{1,4}\.\d{1,4}\.\d{1,4}`.
-- run `mex get-emoji` to get an emoji for the current project name and version
+- run `mex get-emoji` to get an emoji shortcode for the current project name and
+  version, picked from the emoji that element is able to resolve
 - run `mex setup-commit-signing` to configure commit signing in a CI/CD pipeline
