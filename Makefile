@@ -1,5 +1,8 @@
-.PHONY: all setup hooks install lint unit test wheel
+.PHONY: all setup hooks install lint unit test wheel docs
 all: install lint test
+
+SHELL := /bin/bash
+.SHELLFLAGS := -ec
 
 LATEST = $(shell git describe --tags $(shell git rev-list --tags --max-count=1))
 PWD = $(shell pwd)
@@ -39,3 +42,9 @@ wheel:
 	# build the python package
 	@ echo building wheel; \
 	uv build --wheel; \
+
+docs:
+	# use sphinx to auto-generate html docs from code
+	@ echo generating docs; \
+	uv run sphinx-apidoc -f -o docs/source mex; \
+	uv run sphinx-build -aE -b dirhtml docs docs/dist; \
