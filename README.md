@@ -4,6 +4,7 @@ Release tools for the RKI MEx project.
 
 [![cookiecutter](https://github.com/robert-koch-institut/mex-release/actions/workflows/cookiecutter.yml/badge.svg)](https://github.com/robert-koch-institut/mex-template)
 [![cve-scan](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/cve-scan.yml)
+[![documentation](https://github.com/robert-koch-institut/mex-release/actions/workflows/documentation.yml/badge.svg)](https://robert-koch-institut.github.io/mex-release)
 [![linting](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/linting.yml)
 [![opencode](https://github.com/robert-koch-institut/mex-release/actions/workflows/opencode.yml/badge.svg)](https://gitlab.opencode.de/robert-koch-institut/mex/mex-release)
 [![testing](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml/badge.svg)](https://github.com/robert-koch-institut/mex-release/actions/workflows/testing.yml)
@@ -81,6 +82,30 @@ components of the MEx project are open-sourced under the same license as well.
 
 - run `mex release RULE` to release a new version where RULE determines which part of
   the version to update and is one of `major`, `minor`, `patch`.
+
+### Python release verification
+
+Python release artifacts (source distributions and wheels) published to GitHub Releases are signed keyless using [sigstore](https://github.com/sigstore/gh-action-sigstore-python).
+
+To verify a release artifact manually, download the artifact (e.g. `mex_release-<tag>-py3-none-any.whl`) and its Sigstore bundle (`mex_release-<tag>-py3-none-any.whl.sigstore.json`), then run either:
+
+**Using `sigstore`**:
+```bash
+sigstore verify identity \
+  --bundle <path-to-bundle> \
+  --cert-identity "https://github.com/robert-koch-institut/mex-release/.github/workflows/release.yml@refs/heads/main" \
+  --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
+  <path-to-artifact>
+```
+
+**Using `cosign`**:
+```bash
+cosign verify-blob \
+  --bundle <path-to-bundle> \
+  --certificate-identity "https://github.com/robert-koch-institut/mex-release/.github/workflows/release.yml@refs/heads/main" \
+  --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+  <path-to-artifact>
+```
 
 ## Commands
 
