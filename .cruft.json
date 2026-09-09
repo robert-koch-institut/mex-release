@@ -7,7 +7,7 @@
       "project_name": "release",
       "short_summary": "Release tools for the RKI MEx project.",
       "long_summary": "Create a new release, including changelog rollover, project version bump, commit, tag and push.",
-      "containerize": true,
+      "containerize": false,
       "publish_to_pypi": true,
       "python_version_min": "3.11",
       "python_version_max": "3.14",
