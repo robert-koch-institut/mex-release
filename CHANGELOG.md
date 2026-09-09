@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
+- source emoji shortcodes from emojibase v17 (`iamcal` preset), the dataset that
+  element uses, instead of googlefonts emoji-metadata
+- exclude flags and regional indicators from the emoji pool
+
 ### Deprecated
 
 ### Removed
