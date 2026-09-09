@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changes
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.5.0] - 2026-09-09
+
+### Added
+
 - sphinx documentation built by `make docs` and published to github pages
 
 ### Changes
@@ -18,15 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.5.0
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.4.0
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - drop duplicate pypi publishing step from the release workflow
-
-### Security
 
 ## [1.4.0] - 2026-07-01
 
