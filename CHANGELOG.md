@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- prepare support for python 3.15
+
 ### Changes
 
 - source emoji shortcodes from emojibase v17 (`iamcal` preset), the dataset that
