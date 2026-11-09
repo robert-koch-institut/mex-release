@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- finalize support for python 3.15
-
 ### Deprecated
 
 ### Removed
@@ -20,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.6.1] - 2026-11-09
+
+### Changes
+
+- finalize support for python 3.15
 
 ## [1.6.0] - 2026-10-19
 
