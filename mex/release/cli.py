@@ -6,6 +6,7 @@ from mex.release.announcement import app as announcement_app
 from mex.release.emoji import app as emoji_app
 from mex.release.release import app as release_app
 from mex.release.sign import app as sign_app
+from mex.release.template import app as template_app
 
 app = typer.Typer()
 
@@ -43,6 +44,7 @@ app.add_typer(release_app)
 app.add_typer(emoji_app)
 app.add_typer(announcement_app)
 app.add_typer(sign_app)
+app.add_typer(template_app)
 
 
 def main() -> None:
