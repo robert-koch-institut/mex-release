@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - add `get-announcement` command to draft a chat announcement from github release notes
+- add `update-template` command to update to the latest cookiecutter template and commit
 
 ### Changes
 
