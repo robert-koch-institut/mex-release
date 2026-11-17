@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- add `get-announcement` command to draft a chat announcement from github release notes
+
 ### Changes
 
 - finalize support for python 3.15
