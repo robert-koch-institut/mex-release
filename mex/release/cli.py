@@ -2,6 +2,7 @@ from pathlib import Path
 
 import typer
 
+from mex.release.announcement import app as announcement_app
 from mex.release.emoji import app as emoji_app
 from mex.release.release import app as release_app
 from mex.release.sign import app as sign_app
@@ -40,6 +41,7 @@ def common_setup(ctx: typer.Context) -> None:
 
 app.add_typer(release_app)
 app.add_typer(emoji_app)
+app.add_typer(announcement_app)
 app.add_typer(sign_app)
 
 

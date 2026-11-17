@@ -10,17 +10,17 @@ import pytest
 from typer import Context
 from typer.testing import CliRunner
 
-from mex.release.emoji import _get_shortcodes, app
+from mex.release.emoji import _get_emojis, app
 
 runner = CliRunner()
 
 FAKE_EMOJI_DATA = [
-    {"hexcode": "1F600", "label": "grinning face", "group": 0},
-    {"hexcode": "1F955", "label": "carrot", "group": 4},
-    {"hexcode": "1FADC", "label": "root vegetable", "group": 4},
-    {"hexcode": "1F3FB", "label": "light skin tone", "group": 2},
-    {"hexcode": "1F1E9-1F1EA", "label": "flag: Germany", "group": 9},
-    {"hexcode": "1F1E6", "label": "regional indicator A"},
+    {"hexcode": "1F600", "unicode": "😀", "label": "grinning face", "group": 0},
+    {"hexcode": "1F955", "unicode": "🥕", "label": "carrot", "group": 4},
+    {"hexcode": "1FADC", "unicode": "🫜", "label": "root vegetable", "group": 4},
+    {"hexcode": "1F3FB", "unicode": "🏻", "label": "light skin tone", "group": 2},
+    {"hexcode": "1F1E9-1F1EA", "unicode": "🇩🇪", "label": "flag: Germany", "group": 9},
+    {"hexcode": "1F1E6", "unicode": "🇦", "label": "regional indicator A"},
 ]
 FAKE_SHORTCODE_DATA = {
     "1F600": ["grinning", "grinning_face"],
@@ -66,6 +66,6 @@ def test_get_emoji(context: Context, version: str, expected_emoji: str) -> None:
 
 def test_get_shortcodes_skips_control_flag_and_indicator_groups() -> None:
     with patch("mex.release.emoji.urllib.request.urlopen", fake_urlopen()):
-        shortcodes = _get_shortcodes()
+        emojis = _get_emojis()
 
-    assert shortcodes == ["carrot", "grinning", "root_vegetable"]
+    assert emojis == {"carrot": "🥕", "grinning": "😀", "root_vegetable": "🫜"}

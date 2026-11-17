@@ -34,11 +34,11 @@ def _download(path: str) -> Any:  # noqa: ANN401
         return json.loads(response.read())
 
 
-def _get_shortcodes() -> list[str]:
-    """Collect the canonical shortcode of every emoji that element can resolve."""
+def _get_emojis() -> dict[str, str]:
+    """Map the canonical shortcode of every emoji element can resolve to its glyph."""
     emojis = cast("list[dict[str, Any]]", _download(EMOJI_DATA))
     aliases = cast("dict[str, str | list[str]]", _download(SHORTCODE_DATA))
-    shortcodes = set()
+    glyphs = {}
     for emoji in emojis:
         if emoji.get("group") in SKIPPED_GROUPS:
             continue
@@ -46,20 +46,26 @@ def _get_shortcodes() -> list[str]:
         if alias is None:
             # emojibase has no alias for this emoji, fall back the way element does
             alias = re.sub(r"\W+", "_", str(emoji["label"]).lower(), flags=re.ASCII)
-        shortcodes.add(alias if isinstance(alias, str) else alias[0])
-    return sorted(shortcodes)
+        glyphs[alias if isinstance(alias, str) else alias[0]] = str(emoji["unicode"])
+    return dict(sorted(glyphs.items()))
 
 
-@app.command()
-def get_emoji(ctx: typer.Context) -> None:
-    """Pick an emoji shortcode for the unique hash of project name and version."""
-    shortcodes = _get_shortcodes()
+def pick_emoji(root: Path) -> tuple[str, str]:
+    """Pick a shortcode and glyph for the unique hash of project name and version."""
+    emojis = _get_emojis()
 
-    with Path.open(cast("Path", ctx.obj.get("root")) / "pyproject.toml") as f:
+    with Path.open(root / "pyproject.toml") as f:
         project_data = tomlkit.load(f)
         project_name = cast("Table", project_data["project"])["name"]
         project_version = cast("Table", project_data["project"])["version"]
 
     version_hash = hashlib.sha256((f"{project_name}@{project_version}").encode())
-    shortcode = shortcodes[int(version_hash.hexdigest(), 16) % len(shortcodes)]
+    shortcode = list(emojis)[int(version_hash.hexdigest(), 16) % len(emojis)]
+    return shortcode, emojis[shortcode]
+
+
+@app.command()
+def get_emoji(ctx: typer.Context) -> None:
+    """Pick an emoji shortcode for the unique hash of project name and version."""
+    shortcode, _ = pick_emoji(cast("Path", ctx.obj.get("root")))
     typer.echo(f":{shortcode}:")
