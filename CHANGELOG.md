@@ -9,12 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- add `get-announcement` command to draft a chat announcement from github release notes
-- add `update-template` command to update to the latest cookiecutter template and commit
-
 ### Changes
-
-- new template https://github.com/robert-koch-institut/mex-template/releases/tag/2.1.0
 
 ### Deprecated
 
@@ -23,6 +18,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.7.0] - 2026-11-17
+
+### Added
+
+- add `get-announcement` command to draft a chat announcement from github release notes
+- add `update-template` command to update to the latest cookiecutter template and commit
+
+### Changes
+
+- new template https://github.com/robert-koch-institut/mex-template/releases/tag/2.1.0
 
 ## [1.6.1] - 2026-11-09
 
